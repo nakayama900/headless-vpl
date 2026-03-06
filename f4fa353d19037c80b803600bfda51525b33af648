@@ -1,0 +1,24 @@
+src/lib/headless-vpl/index.ts
+  4c766b8b573c33c4 45,120-121,168
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f4fa353d19037c80b803600bfda51525b33af648",
+  "prompts": {
+    "4c766b8b573c33c4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b19e1591-040c-4036-894b-2b013dc86626",
+        "model": "glm-4.7"
+      },
+      "human_author": "nakayama900 <49431394+nakayama900@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 0,
+      "accepted_lines": 4,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/aae104ae8605e861bb8d4579d6b98c2662495d04603696a9578c7d2e19657495"
+    }
+  }
+}
