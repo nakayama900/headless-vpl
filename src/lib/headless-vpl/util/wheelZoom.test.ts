@@ -20,7 +20,9 @@ function createMockElement() {
   } as unknown as HTMLElement
 
   /** キャプチャしたハンドラーにホイールイベントを送り、使った event を返す */
-  function fire(init: Partial<WheelEvent> = {}): WheelEvent & { preventDefault: ReturnType<typeof vi.fn> } {
+  function fire(
+    init: Partial<WheelEvent> = {}
+  ): WheelEvent & { preventDefault: ReturnType<typeof vi.fn> } {
     const event = {
       deltaY: 0,
       deltaX: 0,
@@ -64,7 +66,9 @@ describe('bindWheelZoom', () => {
     const { element } = createMockElement()
     const cleanup = bindWheelZoom(element, { workspace })
     cleanup()
-    expect((element.removeEventListener as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThan(0)
+    expect(
+      (element.removeEventListener as ReturnType<typeof vi.fn>).mock.calls.length
+    ).toBeGreaterThan(0)
   })
 
   // -- デフォルト: deltaY > 0 でズームアウト
@@ -94,7 +98,7 @@ describe('bindWheelZoom', () => {
     const { element, fire } = createMockElement()
     bindWheelZoom(element, { workspace })
     const event = fire({ deltaY: 0 })
-    expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).not.toHaveBeenCalled()
+    expect(workspace.zoomAt as ReturnType<typeof vi.fn>).not.toHaveBeenCalled()
     expect(event.preventDefault).not.toHaveBeenCalled()
   })
 
@@ -103,7 +107,7 @@ describe('bindWheelZoom', () => {
     const { element, fire } = createMockElement()
     bindWheelZoom(element, { workspace, ignoreHorizontal: false })
     const event = fire({ deltaY: 0 })
-    expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).not.toHaveBeenCalled()
+    expect(workspace.zoomAt as ReturnType<typeof vi.fn>).not.toHaveBeenCalled()
     expect(event.preventDefault).not.toHaveBeenCalled()
   })
 
@@ -159,7 +163,7 @@ describe('bindWheelZoom', () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, requireModifier: 'ctrl' })
       const event = fire({ deltaY: 100, ctrlKey: false })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).not.toHaveBeenCalled()
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).not.toHaveBeenCalled()
       expect(event.preventDefault).not.toHaveBeenCalled()
     })
 
@@ -167,35 +171,35 @@ describe('bindWheelZoom', () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, requireModifier: 'ctrl' })
       fire({ deltaY: 100, ctrlKey: true })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1)
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).toHaveBeenCalledTimes(1)
     })
 
     it("requireModifier='meta' のとき metaKey=false ではズームしない", () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, requireModifier: 'meta' })
       fire({ deltaY: 100, metaKey: false })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).not.toHaveBeenCalled()
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).not.toHaveBeenCalled()
     })
 
     it("requireModifier='meta' のとき metaKey=true ではズームする", () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, requireModifier: 'meta' })
       fire({ deltaY: 100, metaKey: true })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1)
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).toHaveBeenCalledTimes(1)
     })
 
     it("requireModifier='alt' のとき altKey=true ではズームする", () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, requireModifier: 'alt' })
       fire({ deltaY: 100, altKey: true })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1)
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).toHaveBeenCalledTimes(1)
     })
 
     it("requireModifier='shift' のとき shiftKey=true ではズームする", () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, requireModifier: 'shift' })
       fire({ deltaY: 100, shiftKey: true })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1)
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -205,7 +209,7 @@ describe('bindWheelZoom', () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, eps: 10 })
       const event = fire({ deltaY: 5 })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).not.toHaveBeenCalled()
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).not.toHaveBeenCalled()
       expect(event.preventDefault).not.toHaveBeenCalled()
     })
 
@@ -213,14 +217,14 @@ describe('bindWheelZoom', () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, eps: 10 })
       fire({ deltaY: 15 })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1)
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).toHaveBeenCalledTimes(1)
     })
 
     it('eps > 0 のとき deltaY === 0 も no-op', () => {
       const { element, fire } = createMockElement()
       bindWheelZoom(element, { workspace, eps: 1 })
       fire({ deltaY: 0 })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).not.toHaveBeenCalled()
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).not.toHaveBeenCalled()
     })
   })
 
@@ -249,7 +253,7 @@ describe('bindWheelZoom', () => {
       // deltaY=3 lines だが変換なし → eps=10 を超えるので正常にズーム
       bindWheelZoom(element, { workspace, normalizeDeltaMode: false })
       fire({ deltaY: 3, deltaMode: 1 })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1)
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).toHaveBeenCalledTimes(1)
     })
 
     it('normalizeDeltaMode=true かつ deltaMode=1 で deltaY*lineHeight が eps 未満なら no-op', () => {
@@ -257,7 +261,7 @@ describe('bindWheelZoom', () => {
       // deltaY=1 line × lineHeight=16 = 16px、eps=20 → no-op
       bindWheelZoom(element, { workspace, normalizeDeltaMode: true, lineHeight: 16, eps: 20 })
       const event = fire({ deltaY: 1, deltaMode: 1 })
-      expect((workspace.zoomAt as ReturnType<typeof vi.fn>)).not.toHaveBeenCalled()
+      expect(workspace.zoomAt as ReturnType<typeof vi.fn>).not.toHaveBeenCalled()
       expect(event.preventDefault).not.toHaveBeenCalled()
     })
   })
